@@ -1,9 +1,7 @@
-arg checks
--4-5 args
--all args >= 0 (except optional 5th input)
--all args must be integers
--no. of philosophers must be < 200
--atoi all args
-
-data structures
+next:
 -struct for each philosopher
+-what is in each struct? 
+-create a thread for each philosopher (perhaps rewatch code vault)
+-how to handle forks and mutexes
+
+printf("no_philo = %d\nttd = %d\ntte = %d\ntts = %d\nno_meals = %d\n", data->no_philo, data->time_to_die, data->time_to_eat, data->time_to_sleep, data->no_meals);
