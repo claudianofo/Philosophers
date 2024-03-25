@@ -5,3 +5,25 @@ next:
 -how to handle forks and mutexes
 
 printf("no_philo = %d\nttd = %d\ntte = %d\ntts = %d\nno_meals = %d\n", data->no_philo, data->time_to_die, data->time_to_eat, data->time_to_sleep, data->no_meals);
+
+
+I'm feeling very distracted right now, and that's ok. That's just where I am at today.
+Surivor is on my mind which is a classic, survivor is very interesting. Coding can also be very interesting!
+I should try and find a way to shift my focus onto some cool coding. Threads!
+My goal is to have philosphers done by next week. That shouldn't be too hard. 
+I've got my project set up nicely. Now it's time to start implementing some threads. 
+Getting a new job is also on my mind and I think that also makes perfect sense. I want a new job!
+My heart is no longer with my job. I am hoping to move into some fields that interest me!
+It is consuming a lot of my brain power at the moment, because entering this industry feels like a risk.
+It's terrifying that I could fail. But nothing worth caring about is risk free.
+And I back myself! I will make a great employee. I am very passionate about learning, and I am very dedicated when I care about what I am doing.
+I have a positive energy and I am going to be a great coder, with a unique and versatile skillset.
+I will be an asset. Even if neither of the current job opportunities work out, I will still gain experience with the process. 
+I will keep improving my skills and I think one day I will end up with a really interesting job.
+The risks are scary but they make this worthwhile. The reason I am still pursuing this despite the risk means that I care about it, and it means that I back myself to beat the odds.
+The fact that I am concerned means that I care. My goals are important to me. And that is never a bad thing in my book (unless your goals are bad haha).
+Maybe these jobs will work out, maybe they won't. Someone will hire me at some point- this I am confident of. 
+I think my life is amazing. I have a fantastic partner, some wonderful friends, many people who I love and many people who love me.
+I have found so many things that bring me joy, and so many things that I am passionate about.
+There is so much to explore and so much that I am excited to learn and experience. 
+I've learnt so much about myself lately and I'm excited to sink into the person that I really am. I think she is great.

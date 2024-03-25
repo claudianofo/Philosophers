@@ -6,7 +6,7 @@
 /*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:04:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/03/06 19:47:59 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:47:10 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ typedef struct s_data
 	int	no_meals;
 }		t_data;
 
-typdef struct s_philo
+//typedef struct s_philo;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/03/06 19:03:40 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:37:04 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av)
 	if (!correct_args(ac, av))
 		return (input_error());
 	data = init_data(av);
-	if (!correct_bounds(data))
+	if (data->no_philo < 1 || data->no_philo > 200)
 		return (input_error());
 	free(data);
 }
