@@ -27,3 +27,19 @@ I think my life is amazing. I have a fantastic partner, some wonderful friends, 
 I have found so many things that bring me joy, and so many things that I am passionate about.
 There is so much to explore and so much that I am excited to learn and experience. 
 I've learnt so much about myself lately and I'm excited to sink into the person that I really am. I think she is great.
+
+
+pthread:
+
+pthread_create(thread(pthread_t), attr(NULL), routine(fnct that thread starts executing), arg(for routine))
+
+Why are mutexes being initialised before threads created?
+pthread_mutex(mutex(pthread_mutex_t), attr(0))
+Mutexes are like a flag that prevents data from being either accessed or changed by other threads at the same time as the current thread. 
+I think the mutex belongs to the data, not the thread. This is why the mutex can be initialised before the threads are initialised.
+Worth noting, any process has at least one thread- but we only talk about the use of threads when there are multiple.
+
+pthread_join(thread(pthread_t), returnValue(NULL I think))
+I think this terminates the specified thread, by rejoining it with the main thread(IDK if that's right)
+
+I have an array of t_philo, one entry for each philosopher. I need to allocate space for the array (which will point to each t_philo struct), so one for each philo. I also need to allocate space for each data entry inside each struct for each philospher
