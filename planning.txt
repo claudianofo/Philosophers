@@ -7,28 +7,6 @@ next:
 printf("no_philo = %d\nttd = %d\ntte = %d\ntts = %d\nno_meals = %d\n", data->no_philo, data->time_to_die, data->time_to_eat, data->time_to_sleep, data->no_meals);
 
 
-I'm feeling very distracted right now, and that's ok. That's just where I am at today.
-Surivor is on my mind which is a classic, survivor is very interesting. Coding can also be very interesting!
-I should try and find a way to shift my focus onto some cool coding. Threads!
-My goal is to have philosphers done by next week. That shouldn't be too hard. 
-I've got my project set up nicely. Now it's time to start implementing some threads. 
-Getting a new job is also on my mind and I think that also makes perfect sense. I want a new job!
-My heart is no longer with my job. I am hoping to move into some fields that interest me!
-It is consuming a lot of my brain power at the moment, because entering this industry feels like a risk.
-It's terrifying that I could fail. But nothing worth caring about is risk free.
-And I back myself! I will make a great employee. I am very passionate about learning, and I am very dedicated when I care about what I am doing.
-I have a positive energy and I am going to be a great coder, with a unique and versatile skillset.
-I will be an asset. Even if neither of the current job opportunities work out, I will still gain experience with the process. 
-I will keep improving my skills and I think one day I will end up with a really interesting job.
-The risks are scary but they make this worthwhile. The reason I am still pursuing this despite the risk means that I care about it, and it means that I back myself to beat the odds.
-The fact that I am concerned means that I care. My goals are important to me. And that is never a bad thing in my book (unless your goals are bad haha).
-Maybe these jobs will work out, maybe they won't. Someone will hire me at some point- this I am confident of. 
-I think my life is amazing. I have a fantastic partner, some wonderful friends, many people who I love and many people who love me.
-I have found so many things that bring me joy, and so many things that I am passionate about.
-There is so much to explore and so much that I am excited to learn and experience. 
-I've learnt so much about myself lately and I'm excited to sink into the person that I really am. I think she is great.
-
-
 pthread:
 
 pthread_create(thread(pthread_t), attr(NULL), routine(fnct that thread starts executing), arg(for routine))
@@ -43,3 +21,11 @@ pthread_join(thread(pthread_t), returnValue(NULL I think))
 I think this terminates the specified thread, by rejoining it with the main thread(IDK if that's right)
 
 I have an array of t_philo, one entry for each philosopher. I need to allocate space for the array (which will point to each t_philo struct), so one for each philo. I also need to allocate space for each data entry inside each struct for each philospher
+
+FORKS
+Each philosopher requires a fork to be assigned to them. The forks could be their own struct, with an ID and a mutex
+Each philosopher could have a left and right fork in their struct, and each fork will be accessible by 2 philosophers.
+Mutex will be locked when a fork is in use which will prevent the other philosopher picking up the same fork.
+I'm not sure how to check if the fork is locked before using. I think we probably just try to lock the mutex and if that doesn't work it is already lost.
+I am going to give every philosopher a fork with the same ID on their right. That means that the fork on their left belongs to the philo on their left,
+which will have the ID of -1 except for the case of philo 0. Their left fork will have the highest ID. 

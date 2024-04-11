@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/01 15:21:18 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:32:17 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@
 
 //	input
 int		input_error(void);
-int		correct_bounds(t_data *data);
 bool	correct_args(int ac, char **av);
 
-// utils
+//  utils
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
+
+//  init
+t_data	*init_data(char **av);
+t_philo	**init_philos(t_data *data);
+void	init_forks(t_data *data);
 
 #endif
