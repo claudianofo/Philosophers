@@ -6,7 +6,7 @@
 /*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/01 16:50:20 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:21:58 by claudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_philo	**init_philos(t_data *data)
 
 	i = 0;
 	philos = malloc(sizeof(t_philo) * data->no_philos); //I'm not sure if this is right
-	if (philos)//come back to malloc error handling 
+	if (!philos)//come back to malloc error handling 
 		return (NULL);
 	while (i < data->no_philos)
 	{
@@ -70,11 +70,14 @@ void	start(t_data *data, t_philo **philos)
 	{
 		if (pthread_create(&philos[i]->thread, NULL, &routine, philos[i]) != 0)
 			printf("error occured\n");//handle error
+		//printf("pthread_create returning %d\n", pthread_create(&philos[i]->thread, NULL, &routine, philos[i]));
 		i++;
 	}
+	i = 0;
 	while (i < data->no_philos)
 	{
 		pthread_join(philos[i]->thread, 0);
+		i++;
 	}
 }
 
