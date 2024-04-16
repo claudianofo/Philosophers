@@ -29,3 +29,13 @@ Mutex will be locked when a fork is in use which will prevent the other philosop
 I'm not sure how to check if the fork is locked before using. I think we probably just try to lock the mutex and if that doesn't work it is already lost.
 I am going to give every philosopher a fork with the same ID on their right. That means that the fork on their left belongs to the philo on their left,
 which will have the ID of -1 except for the case of philo 0. Their left fork will have the highest ID. 
+
+OK, so what is next?
+-Set up error handling for possible malloc failures, handle memory management
+-create message display function, which takes philo id, time from start in milliseconds, and their current action
+-add actions to routine (eating, sleeping, thinking, taking a fork), and add check for death to routine
+-create a thread that monitors if any philosophers are dead
+-create a function that keeps track of time from the start of the simulation, presumably using gettimeofday()
+
+How do I structure the taking forks so that not everyone takes one at the same time? Do some philos start by sleeping or thinking instead?
+How do I minimise the chance of philosophers dying?

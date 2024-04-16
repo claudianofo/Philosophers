@@ -6,29 +6,37 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/11 16:30:09 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/11 23:48:31 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+void	notify(struct timeval start_time, int id, char *action)
+{
+	struct timeval 		now;
+	unsigned long int	elapsed_usec;
 
-
+	gettimeofday(&now, 0);
+	elapsed_usec = (((now.tv_sec * 1000) + (now.tv_usec / 1000) - ((start_time.tv_sec * 1000) + (start_time.tv_usec / 1000));
+	printf("%ld %d %s\n", elapsed_usec, id, action);
+}
 
 void	*routine(void *philo_arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_arg;
-	printf("id = %d\n", philo->id);
+	notify(philo->data->start_time, philo->id, "is here");
 	return (NULL);
 }
 
-void	start(t_data *data, t_philo **philos)
+void	begin(t_data *data, t_philo **philos)
 {
 	int	i;
 
 	i = 0;
+	gettimeofday(&data->start_time, 0);
 	while (i < data->no_philos)
 	{
 		if (pthread_create(&philos[i]->thread, NULL, &routine, philos[i]) != 0)
@@ -44,11 +52,10 @@ void	start(t_data *data, t_philo **philos)
 	}
 }
 
-
 int	main(int ac, char **av)
 {
 	t_data	*data;
-
+	
 	if (!correct_args(ac, av))
 		return (input_error());
 	data = init_data(av);
@@ -58,6 +65,6 @@ int	main(int ac, char **av)
 		return (input_error());
 	init_forks(data);
 	data->philos = init_philos(data);
-	start(data, data->philos);
+	begin(data, data->philos);
 	free(data);
 }

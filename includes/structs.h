@@ -6,7 +6,7 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:04:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/11 16:05:13 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/11 22:23:45 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_data
 	int		time_to_sleep;
 	int		no_meals;
 	t_philo	**philos;
-	t_fork **forks;
+	t_fork	**forks;
+	struct timeval start_time;
 }		t_data;
 
 typedef struct s_philo

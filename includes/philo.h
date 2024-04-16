@@ -6,7 +6,7 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/11 16:32:17 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/11 20:29:44 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <pthread.h>
+# include <sys/time.h>
 # include "structs.h"
 
 //	input
