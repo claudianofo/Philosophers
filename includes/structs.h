@@ -6,7 +6,7 @@
 /*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:04:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/16 21:26:06 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/16 21:51:50 by claudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_data
 	t_fork			**forks;
 	pthread_t		monitor_thread;
 	struct timeval	start_time;
+	bool			finished;
 }		t_data;
 
 typedef struct s_philo

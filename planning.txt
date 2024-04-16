@@ -73,3 +73,5 @@ Is it best for philosophers to monitor this themselves? The monitor will have lo
 all philosophers ate enough
 compare meals eaten with no_meals
 requires addition of meals_eaten
+
+How do I check for program finish more regularly?

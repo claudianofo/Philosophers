@@ -6,7 +6,7 @@
 /*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/16 21:43:23 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/16 22:03:24 by claudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*routine(void *philo_arg)
 		notify(philo->data->start_time, philo->id, "is thinking");
 		wait_sleep(10); //revisit this
 	}
-	for (int i = 0; i < 20; i++)
+	while (philo->data->finished == false)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		notify(philo->data->start_time, philo->id, "has taken a fork");
@@ -68,7 +68,8 @@ void	*monitor(void *data_arg)
 	int		i;
 
 	data = (t_data *)data_arg;
-	while (1)
+	data->finished = false;
+	while (data->finished == false)
 	{
 		i = 0;
 		while (i < data->no_philos)
@@ -76,11 +77,13 @@ void	*monitor(void *data_arg)
 			if (get_elapsed_time(data->philos[i]->last_meal) >= data->time_to_die)
 			{
 				notify(data->start_time, i, "died");
+				data->finished = true;
 				break;
 			}
 			i++;
 		}
 	}
+	return (NULL);
 	//check if philos have eaten recently enough
 	//check if philos have eaten enough meals
 }
