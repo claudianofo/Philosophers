@@ -6,7 +6,7 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/11 23:48:31 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/16 15:08:07 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	notify(struct timeval start_time, int id, char *action)
 	unsigned long int	elapsed_usec;
 
 	gettimeofday(&now, 0);
-	elapsed_usec = (((now.tv_sec * 1000) + (now.tv_usec / 1000) - ((start_time.tv_sec * 1000) + (start_time.tv_usec / 1000));
+	elapsed_usec = ((now.tv_sec * 1000) + (now.tv_usec / 1000)) - ((start_time.tv_sec * 1000) + (start_time.tv_usec / 1000));
 	printf("%ld %d %s\n", elapsed_usec, id, action);
 }
 
@@ -27,7 +27,8 @@ void	*routine(void *philo_arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_arg;
-	notify(philo->data->start_time, philo->id, "is here");
+	for (int i = 0; i < 20; i++)
+		notify(philo->data->start_time, philo->id, "is here");
 	return (NULL);
 }
 
