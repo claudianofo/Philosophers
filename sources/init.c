@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:08 by claudianofo       #+#    #+#             */
-/*   Updated: 2024/04/11 16:30:26 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/16 21:12:13 by claudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_philo	**init_philos(t_data *data)
 		//if (!philos[i]) - handle
 		philos[i]->data = data;
 		philos[i]->id = i;
+		philos[i]->meals_eaten = 0;
 		assign_forks(philos[i], i, data->forks, data->no_philos);
 		i++;
 	}
@@ -71,7 +72,7 @@ void	init_forks(t_data *data)
 	i = 0;
 	while (i < data->no_philos)
 	{
-		data->forks[i] = malloc(sizeof(t_fork));
+		data->forks[i] = malloc(sizeof(t_fork)); //don't forget to destroy these
 		//handle malloc failure
 		data->forks[i]->id = i;
 		pthread_mutex_init(&data->forks[i]->mutex, NULL);

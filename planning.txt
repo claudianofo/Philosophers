@@ -48,4 +48,28 @@ So now it is starting at 0.
 What needs to be achieved here?
 I should probably set up the routine properly. I'm confused about the relationship between eating, sleeping and thinking.
 Can a philosopher only think after they have eaten and slept? How long do they have to think for to count?
-Is it simplest to start off some
+I think I will start philosphers as either eating or thinking? Or Eating or sleeping?
+Regardless, I want half of them eating and half of them doing either sleeping or thinking
+Also, I don't think that they need to think for any particular amount of time, probably just until there are available forks?
+They can begin by thinking if they're not eating and I think this is a good idea (as it makes more sense in the scenario) but I really don't think this is essential
+How do I avoid a deadlock?
+How do I maximise the chances of survival if there are an odd number of philosophers?
+
+If there are even philos, it is really easy. Half of them start with thinking, the other half start with eating. They loop.
+If there are an odd number, what happens really depends on the input params. If their time to eat and sleep are smaller than time to die by a significant enough margin, they will probably be fine
+
+Ok so that wasn't so bad. Now I have to figure out how to monitor how recently each philosopher has eaten, and how it will be determined if one died, and what to do afterwards
+Do I use a thread to monitor that? I think that's what I've heard of other people doing
+
+I think I do need a monitoring thread, it will slow the philosophers down if their own threads have to do all of their own checking I think
+What do we need for checking?
+2 end conditions:
+philosopher didn't eat in time
+compare time elapsed since last meal with time_to_die
+requires addition of last_meal (in millisec)
+Is it best for philosophers to monitor this themselves? The monitor will have lots to check and I want to make sure that this is accurate. Would monitor still be accurate with 200 philos?
+
+
+all philosophers ate enough
+compare meals eaten with no_meals
+requires addition of meals_eaten

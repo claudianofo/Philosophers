@@ -6,7 +6,7 @@
 /*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 14:36:10 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/01 16:22:21 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:55:35 by claudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (result);
+}
+
+void	wait_sleep(int millisec)
+{
+	usleep(millisec * 1000);
 }
