@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/16 22:03:24 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:29:19 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ void	*monitor(void *data_arg)
 {
 	t_data	*data;
 	int		i;
+	int		least_meals_eaten;
 
 	data = (t_data *)data_arg;
 	data->finished = false;
 	while (data->finished == false)
 	{
 		i = 0;
+		least_meals_eaten = INT_MAX;
 		while (i < data->no_philos)
 		{
 			if (get_elapsed_time(data->philos[i]->last_meal) >= data->time_to_die)
@@ -80,8 +82,12 @@ void	*monitor(void *data_arg)
 				data->finished = true;
 				break;
 			}
+			if (data->philos[i]->meals_eaten < least_meals_eaten)
+				least_meals_eaten = data->philos[i]->meals_eaten;
 			i++;
 		}
+		if (least_meals_eaten >= data->no_meals)
+			data->finished = true;
 	}
 	return (NULL);
 	//check if philos have eaten recently enough
