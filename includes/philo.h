@@ -6,7 +6,7 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/17 13:19:57 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/19 00:42:19 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,10 @@ void	wait_sleep(int millisec);
 t_data	*init_data(char **av);
 t_philo	**init_philos(t_data *data);
 void	init_forks(t_data *data);
+
+// exit
+void    thread_error(t_data *data, int threads_created);
+void    *philo_error(t_data *data, int philos_created);
+void    free_data(t_data *data, int forks_created, int fork_mutexes);
 
 #endif

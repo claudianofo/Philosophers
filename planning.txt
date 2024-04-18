@@ -96,10 +96,10 @@ things i thought about/learnt
 -She also checks not just once per loop, but also after eating notification but before updating times_ate
 
 Things to do:
-move monitor functions to main thread, fuck having another thread we gotta use the main one bitchhhh
 test for edgecases and implement anything necessary
 consider setting up a start time for syncronisation
 consider if the meal_time_lco and sim_stop_lock are worth doing
+consider having an optional 2nd monitor thread in case program is too slow at higher numbers of philos
 handle errors
 handle memory management
 make everything follow the norm
@@ -107,4 +107,14 @@ All functions in their correct files
 Upload correct files to intra git repo and submit
 
 Edgecases to handle
--0 meals for last param
+???
+
+Errors to handle
+-malloc error
+-pthread_create error
+-mutex error
+
+Memory management
+-free malloc
+-pthread join (already done)
+-destory mutexes

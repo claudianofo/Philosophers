@@ -6,7 +6,7 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/18 22:20:00 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/19 00:36:45 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	*routine(void *philo_arg)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		notify(philo->data, philo->id, "has taken a fork");
+		if (philo->data->no_philos == 1)
+			return (NULL);
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		notify(philo->data, philo->id, "has taken a fork");
 		notify(philo->data, philo->id, "is eating");
@@ -64,13 +66,11 @@ void	*routine(void *philo_arg)
 	return (NULL);
 }
 
-void	*monitor(void *data_arg)
+void	monitor(t_data	*data)
 {
-	t_data	*data;
 	int		i;
 	int		least_meals_eaten;
 
-	data = (t_data *)data_arg;
 	data->finished = false;
 	while (data->finished == false)
 	{
@@ -82,7 +82,7 @@ void	*monitor(void *data_arg)
 			{
 				notify(data, i, "died");
 				data->finished = true;
-				break;
+				return;
 			}
 			if (data->no_meals > -1 && data->philos[i]->meals_eaten < least_meals_eaten)
 				least_meals_eaten = data->philos[i]->meals_eaten;
@@ -91,30 +91,30 @@ void	*monitor(void *data_arg)
 		if (data->no_meals > -1 && least_meals_eaten >= data->no_meals)
 			data->finished = true;
 	}
-	return (NULL);
+	return ;
 }
 
-void	begin(t_data *data, t_philo **philos)
+void	simulation(t_data *data, t_philo **philos)
 {
 	int	i;
 
+	if (data->no_meals == 0)
+		return ;
 	i = 0;
 	gettimeofday(&data->start_time, 0);//should start_time be initialised after all threads created?
 	while (i < data->no_philos)
 	{
 		if (pthread_create(&philos[i]->thread, NULL, &routine, philos[i]) != 0)
-			printf("error occured\n");//handle error
-		//printf("pthread_create returning %d\n", pthread_create(&philos[i]->thread, NULL, &routine, philos[i]));
+			return (thread_error(data, i));
 		i++;
 	}
-	pthread_create(&data->monitor_thread, NULL, &monitor, data);
+	monitor(data);
 	i = 0;
 	while (i < data->no_philos)
 	{
 		pthread_join(philos[i]->thread, 0);
 		i++;
 	}
-	pthread_join(data->monitor_thread, 0);
 }
 
 int	main(int ac, char **av)
@@ -127,9 +127,17 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	if (data->no_philos < 1 || data->no_philos > 200)
+	{	
+		free_data(data, 0, 0);
 		return (input_error());
+	}
 	init_forks(data);
+	if (!data)
+		return (1);
 	data->philos = init_philos(data);
-	begin(data, data->philos);
-	free(data);
+	if (!data)
+		return (1);
+	simulation(data, data->philos);
+	free_data(data, data->no_philos, data->no_philos);
+	return (0);
 }

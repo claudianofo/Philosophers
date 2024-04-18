@@ -6,7 +6,7 @@
 /*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:04:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/18 21:57:12 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/18 23:30:51 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_data
 	t_philo			**philos;
 	t_fork			**forks;
 	pthread_mutex_t	write_mutex;
-	pthread_t		monitor_thread;
 	struct timeval	start_time;
 	bool			finished;
 }		t_data;
