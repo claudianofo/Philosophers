@@ -75,3 +75,36 @@ compare meals eaten with no_meals
 requires addition of meals_eaten
 
 How do I check for program finish more regularly?
+
+MCOMBEAU
+What does sim_stop_lock mutex do?
+I think this is just so that the grim reaper doesn't change the sim_stop flag at the same time as one of the other threads checking it
+what does write lock mutex do?
+I think this might be to ensure that the threads aren't writing at the same time, which could help prevent them from getting mixed up. This could also ensure that nothing gets written after the death message
+what does meal_time_lock mutex do?
+this is part of the philo struct. It seems that it is being used when the last_meal data of that philo is being accessed. I assume this is so the grim reaper thread dosn't access it at the same time as the current thread.
+This lock is also used for access/updates to times_ate variable
+
+
+Use example 5 800 200 200 1
+
+things i thought about/learnt
+-The main thread (that creates the other threads) still exists while the other threads are busy
+-You have to return a thread before it can join back with the main thread
+-she deliberately sets the start time in the future in the function that creates the threads. Then the threads have to wait for the start time before they start and it is synced. Is this important?
+-Could it just be that I need to check if the sim has stopped before notifying?
+-She also checks not just once per loop, but also after eating notification but before updating times_ate
+
+Things to do:
+move monitor functions to main thread, fuck having another thread we gotta use the main one bitchhhh
+test for edgecases and implement anything necessary
+consider setting up a start time for syncronisation
+consider if the meal_time_lco and sim_stop_lock are worth doing
+handle errors
+handle memory management
+make everything follow the norm
+All functions in their correct files 
+Upload correct files to intra git repo and submit
+
+Edgecases to handle
+-0 meals for last param

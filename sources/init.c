@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:08 by claudianofo       #+#    #+#             */
-/*   Updated: 2024/04/16 21:12:13 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/18 21:59:34 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_data	*init_data(char **av)
 	data->time_to_die = ft_atoi(av[i++]);
 	data->time_to_eat = ft_atoi(av[i++]);
 	data->time_to_sleep = ft_atoi(av[i++]);
+	pthread_mutex_init(&data->write_mutex, NULL);
 	if (av[i])
 		data->no_meals = ft_atoi(av[i]);
 	else

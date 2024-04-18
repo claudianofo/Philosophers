@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:04:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/16 21:51:50 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/18 21:57:12 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	int				no_meals;
 	t_philo			**philos;
 	t_fork			**forks;
+	pthread_mutex_t	write_mutex;
 	pthread_t		monitor_thread;
 	struct timeval	start_time;
 	bool			finished;
