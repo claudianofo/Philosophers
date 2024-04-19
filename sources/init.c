@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:08 by claudianofo       #+#    #+#             */
-/*   Updated: 2024/04/19 00:46:05 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/19 15:08:01 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ t_data	*init_data(char **av)
 	i = 1;
 	data = malloc(sizeof(t_data));
 	if (!data)
-	{
 		printf("error: malloc\n");
+	if (!data)
 		return (NULL);
-	}
+	data->finished = false;
 	data->no_philos = ft_atoi(av[i++]);
 	data->time_to_die = ft_atoi(av[i++]);
 	data->time_to_eat = ft_atoi(av[i++]);
@@ -41,10 +41,43 @@ t_data	*init_data(char **av)
 	return (data);
 }
 
-void	assign_forks(t_philo *philo, int i, t_fork **forks, int no_philos)
+void	fork_error(char *type, t_data *data, int malloc, int mutex)
 {
+	printf("error: %s\n", type);
+	free_forks(data, malloc, mutex);
+	return (free_data(data, 1));
+}
+
+void	init_forks(t_data *data)
+{
+	int	i;
+
+	data->forks = malloc(sizeof(t_fork) * data->no_philos);
+	if (data->forks == NULL)
+	{	
+		printf("error: malloc\n");
+		return (free_data(data, 1));
+	}
+	i = 0;
+	while (i < data->no_philos)
+	{
+		data->forks[i] = malloc(sizeof(t_fork));
+		if (data->forks[i] == NULL)
+			return (fork_error("malloc", data, i, i));
+		data->forks[i]->id = i;
+		if (pthread_mutex_init(&data->forks[i]->mutex, NULL) != 0)
+			return (fork_error("mutex", data, i + 1, i));
+		i++;
+	}
+}
+
+void	init_philo_data(t_data *data, t_philo *philo, int i, t_fork **forks)
+{
+	philo->data = data;
+	philo->id = i;
+	philo->meals_eaten = 0;
 	if (i == 0)
-		philo->left_fork = forks[no_philos - 1];
+		philo->left_fork = forks[data->no_philos - 1];
 	else 
 		philo->left_fork = forks[i - 1];
 	philo->right_fork = forks[i];
@@ -60,48 +93,21 @@ t_philo	**init_philos(t_data *data)
 	if (!philos)
 	{
 		printf("error: malloc\n");
-		free_data(data, data->no_philos, data->no_philos);
+		free_data(data, 2);
 		return (NULL);
 	}
 	while (i < data->no_philos)
 	{
 		philos[i] = malloc(sizeof(t_philo));
 		if (!philos[i])
-			return (philo_error(data, i - 1));
-		philos[i]->data = data;
-		philos[i]->id = i;
-		philos[i]->meals_eaten = 0;
-		assign_forks(philos[i], i, data->forks, data->no_philos);
+		{
+			printf("error: malloc\n");
+			free_philos(data, i);
+			free_data(data, 2);
+			return (NULL);
+		}
+		init_philo_data(data, philos[i], i, data->forks);
 		i++;
 	}
 	return (philos);
-}
-
-void	init_forks(t_data *data)
-{
-	int	i;
-
-	data->forks = malloc(sizeof(t_fork) * data->no_philos);
-	if (data->forks == NULL)
-	{	
-		printf("error: malloc\n");
-		return (free_data(data, 0, 0));
-	}
-	i = 0;
-	while (i < data->no_philos)
-	{
-		data->forks[i] = malloc(sizeof(t_fork));
-		if (data->forks[i] == NULL)
-		{	
-			printf("error: malloc\n");
-			return (free_data(data, i - 1, i - 1));
-		}
-		data->forks[i]->id = i;
-		if (pthread_mutex_init(&data->forks[i]->mutex, NULL) != 0)
-		{
-			printf("error: malloc\n");
-			return (free_data(data, i, i - 1));
-		}
-		i++;
-	}
 }

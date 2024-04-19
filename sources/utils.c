@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudia <claudia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 14:36:10 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/16 16:55:35 by claudia          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:03:45 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ int	ft_atoi(const char *str)
 void	wait_sleep(int millisec)
 {
 	usleep(millisec * 1000);
+}
+
+int	get_elapsed_time(struct timeval start_time)
+{
+	struct timeval 		now;
+	unsigned long int	elapsed_millisec;
+
+	gettimeofday(&now, 0);
+	elapsed_millisec = ((now.tv_sec * 1000) + (now.tv_usec / 1000)) - ((start_time.tv_sec * 1000) + (start_time.tv_usec / 1000));
+	return (elapsed_millisec);
 }

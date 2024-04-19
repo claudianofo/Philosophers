@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:04:24 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/18 23:30:51 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/19 15:20:30 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 
 typedef struct s_fork
 {
@@ -45,6 +45,5 @@ typedef struct s_philo
 	struct timeval	last_meal;
 	int				meals_eaten;
 }	t_philo;
-
 
 #endif

@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/19 00:36:45 by claudianofo      ###   ########.fr       */
+/*   Updated: 2024/04/19 15:03:33 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-int	get_elapsed_time(struct timeval start_time)
-{
-	struct timeval 		now;
-	unsigned long int	elapsed_millisec;
-
-	gettimeofday(&now, 0);
-	elapsed_millisec = ((now.tv_sec * 1000) + (now.tv_usec / 1000)) - ((start_time.tv_sec * 1000) + (start_time.tv_usec / 1000));
-	return (elapsed_millisec);
-}
 
 void	notify(t_data *data, int id, char *action)
 {
@@ -34,23 +24,14 @@ void	notify(t_data *data, int id, char *action)
 	pthread_mutex_unlock(&data->write_mutex);
 }
 
-void	*routine(void *philo_arg)
+void	eat_sleep_think(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)philo_arg;
-	philo->last_meal = philo->data->start_time;
-	if (philo->id % 2 != 0)
-	{
-		notify(philo->data, philo->id, "is thinking");
-		wait_sleep(10); //revisit this
-	}
 	while (philo->data->finished == false)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		notify(philo->data, philo->id, "has taken a fork");
 		if (philo->data->no_philos == 1)
-			return (NULL);
+			return ;
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		notify(philo->data, philo->id, "has taken a fork");
 		notify(philo->data, philo->id, "is eating");
@@ -63,6 +44,20 @@ void	*routine(void *philo_arg)
 		wait_sleep(philo->data->time_to_sleep);
 		notify(philo->data, philo->id, "is thinking");
 	}
+}
+
+void	*routine(void *philo_arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)philo_arg;
+	philo->last_meal = philo->data->start_time;
+	if (philo->id % 2 != 0)
+	{
+		notify(philo->data, philo->id, "is thinking");
+		wait_sleep(10);
+	}
+	eat_sleep_think(philo);
 	return (NULL);
 }
 
@@ -101,20 +96,18 @@ void	simulation(t_data *data, t_philo **philos)
 	if (data->no_meals == 0)
 		return ;
 	i = 0;
-	gettimeofday(&data->start_time, 0);//should start_time be initialised after all threads created?
+	gettimeofday(&data->start_time, 0);
 	while (i < data->no_philos)
 	{
 		if (pthread_create(&philos[i]->thread, NULL, &routine, philos[i]) != 0)
-			return (thread_error(data, i));
+		{	
+			printf("error: pthread_create\n");
+			join_threads(data, i);
+			return (free_data(data, 3));
+		}
 		i++;
 	}
 	monitor(data);
-	i = 0;
-	while (i < data->no_philos)
-	{
-		pthread_join(philos[i]->thread, 0);
-		i++;
-	}
 }
 
 int	main(int ac, char **av)
@@ -128,7 +121,7 @@ int	main(int ac, char **av)
 		return (1);
 	if (data->no_philos < 1 || data->no_philos > 200)
 	{	
-		free_data(data, 0, 0);
+		free_data(data, 1);
 		return (input_error());
 	}
 	init_forks(data);
@@ -138,6 +131,7 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	simulation(data, data->philos);
-	free_data(data, data->no_philos, data->no_philos);
+	if (data)
+		free_data(data, 4);
 	return (0);
 }
