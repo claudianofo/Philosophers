@@ -6,22 +6,17 @@
 /*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/19 15:03:33 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:59:19 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	notify(t_data *data, int id, char *action)
+void	lone_philo_routine(t_philo *philo)
 {
-	unsigned long int	elapsed_millisec;
-
-	if (data->finished == true)
-		return ;
-	elapsed_millisec = get_elapsed_time(data->start_time);
-	pthread_mutex_lock(&data->write_mutex);
-	printf("%ld %d %s\n", elapsed_millisec, id + 1, action);
-	pthread_mutex_unlock(&data->write_mutex);
+	pthread_mutex_lock(&philo->left_fork->mutex);
+	notify(philo->data, philo->id, "has taken a fork");
+	return ;
 }
 
 void	eat_sleep_think(t_philo *philo)
@@ -30,8 +25,6 @@ void	eat_sleep_think(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		notify(philo->data, philo->id, "has taken a fork");
-		if (philo->data->no_philos == 1)
-			return ;
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		notify(philo->data, philo->id, "has taken a fork");
 		notify(philo->data, philo->id, "is eating");
@@ -52,38 +45,43 @@ void	*routine(void *philo_arg)
 
 	philo = (t_philo *)philo_arg;
 	philo->last_meal = philo->data->start_time;
-	if (philo->id % 2 != 0)
+	if (philo->data->no_philos == 1)
+		lone_philo_routine(philo);
+	else
 	{
-		notify(philo->data, philo->id, "is thinking");
-		wait_sleep(10);
+		if (philo->id % 2 != 0)
+		{
+			notify(philo->data, philo->id, "is thinking");
+			wait_sleep(10);
+		}
+		eat_sleep_think(philo);
 	}
-	eat_sleep_think(philo);
 	return (NULL);
 }
 
 void	monitor(t_data	*data)
 {
 	int		i;
-	int		least_meals_eaten;
+	int		min_meals;
 
 	data->finished = false;
 	while (data->finished == false)
 	{
 		i = 0;
-		least_meals_eaten = INT_MAX;
+		min_meals = INT_MAX;
 		while (i < data->no_philos)
 		{
-			if (get_elapsed_time(data->philos[i]->last_meal) >= data->time_to_die)
+			if (elapsed_time(data->philos[i]->last_meal) >= data->time_to_die)
 			{
 				notify(data, i, "died");
 				data->finished = true;
-				return;
+				return ;
 			}
-			if (data->no_meals > -1 && data->philos[i]->meals_eaten < least_meals_eaten)
-				least_meals_eaten = data->philos[i]->meals_eaten;
+			if (data->no_meals > -1 && data->philos[i]->meals_eaten < min_meals)
+				min_meals = data->philos[i]->meals_eaten;
 			i++;
 		}
-		if (data->no_meals > -1 && least_meals_eaten >= data->no_meals)
+		if (data->no_meals > -1 && min_meals >= data->no_meals)
 			data->finished = true;
 	}
 	return ;
@@ -100,7 +98,7 @@ void	simulation(t_data *data, t_philo **philos)
 	while (i < data->no_philos)
 	{
 		if (pthread_create(&philos[i]->thread, NULL, &routine, philos[i]) != 0)
-		{	
+		{
 			printf("error: pthread_create\n");
 			join_threads(data, i);
 			return (free_data(data, 3));
@@ -113,14 +111,14 @@ void	simulation(t_data *data, t_philo **philos)
 int	main(int ac, char **av)
 {
 	t_data	*data;
-	
+
 	if (!correct_args(ac, av))
 		return (input_error());
 	data = init_data(av);
 	if (!data)
 		return (1);
 	if (data->no_philos < 1 || data->no_philos > 200)
-	{	
+	{
 		free_data(data, 1);
 		return (input_error());
 	}

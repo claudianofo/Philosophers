@@ -6,7 +6,7 @@
 /*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:08 by claudianofo       #+#    #+#             */
-/*   Updated: 2024/04/19 15:08:01 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:41:01 by cnorton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_forks(t_data *data)
 
 	data->forks = malloc(sizeof(t_fork) * data->no_philos);
 	if (data->forks == NULL)
-	{	
+	{
 		printf("error: malloc\n");
 		return (free_data(data, 1));
 	}
@@ -78,14 +78,14 @@ void	init_philo_data(t_data *data, t_philo *philo, int i, t_fork **forks)
 	philo->meals_eaten = 0;
 	if (i == 0)
 		philo->left_fork = forks[data->no_philos - 1];
-	else 
+	else
 		philo->left_fork = forks[i - 1];
 	philo->right_fork = forks[i];
 }
 
 t_philo	**init_philos(t_data *data)
 {
-	int	i;
+	int		i;
 	t_philo	**philos;
 
 	i = 0;
