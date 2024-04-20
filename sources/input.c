@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:28:03 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/19 16:07:48 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:33:49 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+Checks that all arguments are positive integers or zero
+*/
 bool	correct_args(int ac, char **av)
 {
 	int	i;
@@ -33,6 +36,9 @@ bool	correct_args(int ac, char **av)
 	return (true);
 }
 
+/*
+Prints an error message if arguments are incorrect
+*/
 int	input_error(void)
 {
 	printf("input error\ncorrect input format:\n");

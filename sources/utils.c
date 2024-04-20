@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 14:36:10 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/19 16:48:33 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:34:01 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	notify(t_data *data, int id, char *action)
 	pthread_mutex_unlock(&data->write_mutex);
 }
 
-void	wait_sleep(int millisec)
+/*void	wait_sleep(int millisec)
 {
 	usleep(millisec * 1000);
-}
+}*/
 
 int	elapsed_time(struct timeval start_time)
 {

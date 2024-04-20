@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:13:34 by claudianofo       #+#    #+#             */
-/*   Updated: 2024/04/19 16:07:37 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:24:18 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+Joins threads
+Called by free_data() at completion of simulation, 
+or if an error occurs during thread creation
+*/
 void	join_threads(t_data *data, int threads_created)
 {
 	int	i;
@@ -24,6 +29,11 @@ void	join_threads(t_data *data, int threads_created)
 	}
 }
 
+/*
+Frees allocated philosopher memory
+Called by free_data() at completion of simulation, 
+or if an error occurs during philo initialisation
+*/
 void	free_philos(t_data *data, int philos_created)
 {
 	int	i;
@@ -38,7 +48,9 @@ void	free_philos(t_data *data, int philos_created)
 }
 
 /*
-destorys mutexes and frees allocated memory for forks
+Destroys fork mutexes and frees allocated fork memory
+Called by free_data() at completion of simulation, 
+or if an error occurs during fork initialisation
 */
 void	free_forks(t_data *data, int forks_created, int fork_mutexes)
 {
@@ -60,8 +72,7 @@ void	free_forks(t_data *data, int forks_created, int fork_mutexes)
 }
 
 /*
-This function is used for cleanup if an error occurs
-or upon completion of simulation
+Used for cleanup if an error occurs, or upon completion of simulation
 Cleanup codes:
 1 = destory write mutex only and free data only
 2 = free all memory except philos, destory all mutexes

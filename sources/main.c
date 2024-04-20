@@ -3,23 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/19 16:59:19 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/04/20 15:06:41 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	lone_philo_routine(t_philo *philo)
+/*
+Separate from the eat_sleep_think routine to avoid getting stuck
+before grabbing the 2nd fork
+*/
+void	one_philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->mutex);
 	notify(philo->data, philo->id, "has taken a fork");
 	return ;
 }
 
-void	eat_sleep_think(t_philo *philo)
+void	eat_sleep_think_routine(t_philo *philo)
 {
 	while (philo->data->finished == false)
 	{
@@ -30,31 +34,38 @@ void	eat_sleep_think(t_philo *philo)
 		notify(philo->data, philo->id, "is eating");
 		gettimeofday(&philo->last_meal, 0);
 		philo->meals_eaten++;
-		wait_sleep(philo->data->time_to_eat);
+		usleep(philo->data->time_to_eat * 1000);
 		pthread_mutex_unlock(&philo->left_fork->mutex);
 		pthread_mutex_unlock(&philo->right_fork->mutex);
 		notify(philo->data, philo->id, "is sleeping");
-		wait_sleep(philo->data->time_to_sleep);
+		usleep(philo->data->time_to_sleep * 1000);
 		notify(philo->data, philo->id, "is thinking");
 	}
 }
 
+/*
+Waits for the start_time then begins philosopher actions.
+Even philosophers (who have an odd ID) start by thinking
+to allow odd philosophers to grab forks. This avoids deadlocks
+*/
 void	*routine(void *philo_arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_arg;
 	philo->last_meal = philo->data->start_time;
+	while (elapsed_time(philo->data->start_time) < 0)
+		continue;
 	if (philo->data->no_philos == 1)
-		lone_philo_routine(philo);
+		one_philo_routine(philo);
 	else
 	{
 		if (philo->id % 2 != 0)
 		{
 			notify(philo->data, philo->id, "is thinking");
-			wait_sleep(10);
+			usleep(10 * 1000);
 		}
-		eat_sleep_think(philo);
+		eat_sleep_think_routine(philo);
 	}
 	return (NULL);
 }
@@ -87,6 +98,19 @@ void	monitor(t_data	*data)
 	return ;
 }
 
+struct timeval	set_start_time(int no_philos)
+{
+	struct timeval	now;
+	struct timeval	start_time;
+	unsigned long int	incr_usec;
+
+	gettimeofday(&now, 0);
+	incr_usec = now.tv_usec + (no_philos + 20) * 1000;
+	start_time.tv_usec = incr_usec % 1000000;
+	start_time.tv_sec = incr_usec / 1000000 + now.tv_sec;
+	return (start_time);
+}
+
 void	simulation(t_data *data, t_philo **philos)
 {
 	int	i;
@@ -94,7 +118,7 @@ void	simulation(t_data *data, t_philo **philos)
 	if (data->no_meals == 0)
 		return ;
 	i = 0;
-	gettimeofday(&data->start_time, 0);
+	data->start_time = set_start_time(data->no_philos);
 	while (i < data->no_philos)
 	{
 		if (pthread_create(&philos[i]->thread, NULL, &routine, philos[i]) != 0)
