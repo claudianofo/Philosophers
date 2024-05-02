@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 18:43:20 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/26 15:35:55 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:30:25 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+prints the actions to stdout with a timestamp. A "write" mutex prevents multiple
+threads from printing at the same time
+*/
 void	notify(t_data *data, int id, char *action)
 {
 	unsigned long int	elapsed_msec;
@@ -24,6 +28,13 @@ void	notify(t_data *data, int id, char *action)
 	pthread_mutex_unlock(&data->write_mutex);
 }
 
+/*
+Checks if either of the 2 end conditions have been  met:
+If any philosophers have died (if they didn't eat within
+the time_to_die timeframe)
+OR if all philosophers have eaten at least the number of meals
+specified by the optional 5th argument
+*/
 void	monitor(t_data	*data)
 {
 	int		i;
@@ -52,6 +63,11 @@ void	monitor(t_data	*data)
 	return ;
 }
 
+/*
+Starts the simulation by setting a start-time (to sync the threads),
+creating the philosopher threads and then calls the monitor function
+from the main thread
+*/
 void	simulation(t_data *data, t_philo **philos)
 {
 	int				i;

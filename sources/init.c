@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:29:08 by claudianofo       #+#    #+#             */
-/*   Updated: 2024/04/19 15:41:01 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/05/02 10:42:18 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+Allocates memory for the main data struct, and saves the arg paramaters
+to the struct. Mutexes and some other variables are also initialised
+*/
 t_data	*init_data(char **av)
 {
 	t_data	*data;
@@ -41,6 +45,11 @@ t_data	*init_data(char **av)
 	return (data);
 }
 
+/*
+Called if there is a malloc or mutex error during fork initialisation.
+The number of succesfuly initialised mallocs and mutexes are sent to
+the free_forks function for cleanup
+*/
 void	fork_error(char *type, t_data *data, int malloc, int mutex)
 {
 	printf("error: %s\n", type);
@@ -48,6 +57,10 @@ void	fork_error(char *type, t_data *data, int malloc, int mutex)
 	return (free_data(data, 1));
 }
 
+/*
+Allocates memory for the array of fork structs and the individual structs,
+and initialises one mutex for every fork
+*/
 void	init_forks(t_data *data)
 {
 	int	i;
@@ -71,6 +84,9 @@ void	init_forks(t_data *data)
 	}
 }
 
+/*
+Initialises the data in a philo struct, and allocates the left and right forks
+*/
 void	init_philo_data(t_data *data, t_philo *philo, int i, t_fork **forks)
 {
 	philo->data = data;
@@ -83,6 +99,9 @@ void	init_philo_data(t_data *data, t_philo *philo, int i, t_fork **forks)
 	philo->right_fork = forks[i];
 }
 
+/*
+Allocates memory for the array of philo structs and the individual structs
+*/
 t_philo	**init_philos(t_data *data)
 {
 	int		i;

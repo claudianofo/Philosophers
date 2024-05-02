@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnorton- <cnorton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudianofo <claudianofo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 15:17:33 by cnorton-          #+#    #+#             */
-/*   Updated: 2024/04/26 15:37:26 by cnorton-         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:24:02 by claudianofo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 /*
-Separate from the eat_sleep_think routine to avoid getting stuck
+Separate from the eat_sleep_think_routine to avoid getting stuck
 before grabbing the 2nd fork
 */
 void	one_philo_routine(t_philo *philo)
@@ -23,6 +23,12 @@ void	one_philo_routine(t_philo *philo)
 	return ;
 }
 
+/*
+The main philosopher routine - checks if the monitor has set the 
+program finished flag to true. Otherwise, the philosopher loops through 
+grabbing forks (and locking the forks with mutexes), eating, sleeping 
+and thinking for lengths of time determined by the program arguments. 
+*/
 void	eat_sleep_think_routine(t_philo *philo)
 {
 	struct timeval	current_time;
